@@ -1,5 +1,5 @@
 {
-  "name": "@celeri/middleware-engine",
+  "name": "@celeri/middleware-pipeline",
   "version": "1.0.0",
   "description": "A generic engine for creating middleware sets that can be run with any given input",
   "main": "src/index.js",
