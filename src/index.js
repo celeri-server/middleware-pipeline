@@ -27,7 +27,9 @@ export class MiddlewarePipeline {
 			for (let i = 0; i < middlewares.length; i++) {
 				const { isCatch, middleware } = middlewares[i];
 
-				if (isError && ! isCatch) {
+				// Only allow appropriate middlewares to run
+				// (catch for errors, use for normal state)
+				if (isError !== isCatch) {
 					continue;
 				}
 
