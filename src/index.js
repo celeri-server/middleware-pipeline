@@ -19,8 +19,7 @@ export class MiddlewarePipeline {
 	}
 
 	run(input) {
-		let isError;
-		let nextInput = input;
+		let error;
 		const { middlewares } = props.get(this);
 
 		return new Promise(async (resolve, reject) => {
@@ -29,30 +28,27 @@ export class MiddlewarePipeline {
 
 				// Only allow appropriate middlewares to run
 				// (catch for errors, use for normal state)
-				if (isError !== isCatch) {
+				if (! error === isCatch) {
 					continue;
 				}
 
 				try {
-					isError = false;
-					nextInput = await middleware(input);
-
-					if (nextInput == null) {
-						break;
+					if (error) {
+						await middleware(Object.assign({ }, input, { error }));
+						error = null;
 					}
 				}
 
-				catch (error) {
-					isError = true;
-					nextInput = Object.assign(nextInput || { }, { error });
+				catch (err) {
+					error = err;
 				}
 			}
 
-			if (isError) {
-				reject(nextInput);
+			if (error) {
+				reject(error);
 			}
 			else {
-				resolve(nextInput);
+				resolve();
 			}
 		});
 	}
