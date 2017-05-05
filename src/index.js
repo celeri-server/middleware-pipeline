@@ -37,6 +37,9 @@ export class MiddlewarePipeline {
 						await middleware(Object.assign({ }, input, { error }));
 						error = null;
 					}
+					else {
+						await middleware(Object.assign({ }, input));
+					}
 				}
 
 				catch (err) {

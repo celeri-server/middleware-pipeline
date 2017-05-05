@@ -7,12 +7,21 @@
     "build": "babel src --out-dir build",
     "postinstall": "postinstall-build build"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/celeri-server/middleware-pipeline.git"
+  },
   "keywords": [
+    "celeri",
     "middleware",
     "async"
   ],
   "author": "James Brumond <james@jbrumond.me> (http://www.jbrumond.me)",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/celeri-server/middleware-pipeline/issues"
+  },
+  "homepage": "https://github.com/celeri-server/middleware-pipeline#readme",
   "devDependencies": {
     "eslint": "^3.19.0",
     "eslint-config-celeri": "^1.0.0",
