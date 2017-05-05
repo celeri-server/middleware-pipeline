@@ -1,6 +1,6 @@
 {
   "name": "@celeri/middleware-pipeline",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A generic library for creating middleware pipelines",
   "main": "build/index.js",
   "scripts": {
