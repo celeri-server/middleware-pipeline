@@ -1,13 +1,26 @@
 
-const props = new WeakMap();
+type Middleware<T extends object> = {
+	middleware: MiddlewareFunction<T>,
+	isCatch: false
+} | {
+	middleware: ErrorMiddlewareFunction<T>,
+	isCatch: true
+};
+
+interface PrivateStorage<T extends object> {
+	middlewares: Array<Middleware<T>>
+}
 
 export interface MiddlewareFunction<T> {
-	(input: T): Promise<void>
+	(input: T): Promise<void>;
+	(input: T): void;
 }
 
 export interface ErrorMiddlewareFunction<T> {
 	(input: T & { error: Error }): Promise<void>
 }
+
+const props: WeakMap<MiddlewarePipeline<any>, PrivateStorage<any>> = new WeakMap();
 
 export class MiddlewarePipeline<T extends object> {
 	constructor() {
@@ -32,21 +45,22 @@ export class MiddlewarePipeline<T extends object> {
 
 		return new Promise(async (resolve, reject) => {
 			for (let i = 0; i < middlewares.length; i++) {
-				const { isCatch, middleware } = middlewares[i];
+				const middleware = middlewares[i] as Middleware<T>;
 
 				// Only allow appropriate middlewares to run
 				// (catch for errors, use for normal state)
-				if (! error === isCatch) {
+				if (! error === middleware.isCatch) {
 					continue;
 				}
 
 				try {
-					if (error) {
-						await middleware(Object.assign({ }, input, { error }));
+					if (middleware.isCatch) {
+						await middleware.middleware(Object.assign({ }, input, { error }));
 						error = null;
 					}
+
 					else {
-						await middleware(Object.assign({ }, input));
+						await middleware.middleware(Object.assign({ }, input, { error: void 0 }));
 					}
 				}
 
