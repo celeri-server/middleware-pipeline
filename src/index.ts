@@ -1,11 +1,11 @@
 
 const props = new WeakMap();
 
-interface MiddlewareFunction<T> {
+export interface MiddlewareFunction<T> {
 	(input: T): Promise<void>
 }
 
-interface ErrorMiddlewareFunction<T> {
+export interface ErrorMiddlewareFunction<T> {
 	(input: T & { error: Error }): Promise<void>
 }
 
