@@ -4,8 +4,7 @@
   "description": "A generic library for creating middleware pipelines",
   "main": "build/index.js",
   "scripts": {
-    "build": "babel src --out-dir build",
-    "postinstall": "postinstall-build build"
+    "build": "tsc --build tsconfig.json"
   },
   "repository": {
     "type": "git",
