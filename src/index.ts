@@ -12,12 +12,11 @@ interface PrivateStorage<T extends object> {
 }
 
 export interface MiddlewareFunction<T> {
-	(input: T): Promise<void>;
-	(input: T): void;
+	(input: T): void | Promise<void>;
 }
 
 export interface ErrorMiddlewareFunction<T> {
-	(input: T & { error: Error }): Promise<void>
+	(input: T & { error: Error }): void | Promise<void>
 }
 
 const props: WeakMap<MiddlewarePipeline<any>, PrivateStorage<any>> = new WeakMap();
