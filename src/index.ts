@@ -1,24 +1,32 @@
 
 const props = new WeakMap();
 
-export class MiddlewarePipeline {
+interface MiddlewareFunction<T> {
+	(input: T): Promise<void>
+}
+
+interface ErrorMiddlewareFunction<T> {
+	(input: T & { error: Error }): Promise<void>
+}
+
+export class MiddlewarePipeline<T extends object> {
 	constructor() {
 		props.set(this, {
 			middlewares: [ ]
 		});
 	}
 
-	use(middleware) {
+	use(middleware: MiddlewareFunction<T>) : this {
 		props.get(this).middlewares.push({ middleware, isCatch: false });
 		return this;
 	}
 
-	catch(middleware) {
+	catch(middleware: ErrorMiddlewareFunction<T>) : this {
 		props.get(this).middlewares.push({ middleware, isCatch: true });
 		return this;
 	}
 
-	run(input) {
+	run(input: T) : Promise<void> {
 		let error;
 		const { middlewares } = props.get(this);
 
