@@ -16,7 +16,7 @@ export interface MiddlewareFunction<T> {
 }
 
 export interface ErrorMiddlewareFunction<T> {
-	(input: T & { error: Error }): void | Promise<void>
+	(input: T & { error: any }): void | Promise<void>
 }
 
 const props: WeakMap<MiddlewarePipeline<any>, PrivateStorage<any>> = new WeakMap();
