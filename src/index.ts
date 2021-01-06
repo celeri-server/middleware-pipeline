@@ -19,6 +19,8 @@ export interface ErrorMiddlewareFunction<T> {
 	(input: T & { error: any }): void | Promise<void>
 }
 
+export const break_pipeline = Symbol('celeri/middleware-pipeline/break_pipeline');
+
 const props: WeakMap<MiddlewarePipeline<any>, PrivateStorage<any>> = new WeakMap();
 
 export class MiddlewarePipeline<T extends object> {
@@ -64,6 +66,10 @@ export class MiddlewarePipeline<T extends object> {
 				}
 
 				catch (err) {
+					if (err === break_pipeline) {
+						break;
+					}
+
 					error = err;
 				}
 			}
