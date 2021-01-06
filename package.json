@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/celeri-server/middleware-pipeline#readme",
   "devDependencies": {
-    "@types/node": "^11.11.4"
+    "@types/node": "^11.11.4",
+    "typescript": "^4.1.3"
   }
 }
